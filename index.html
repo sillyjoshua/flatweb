@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FlatWeb Safe Search</title>
+<title>FlatWeb</title>
 
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
@@ -23,7 +23,12 @@ body{
 
 h1{
     font-size:64px;
-    margin-bottom:20px;
+    margin-bottom:10px;
+}
+
+p{
+    color:#8b949e;
+    margin-bottom:25px;
 }
 
 input{
@@ -53,76 +58,28 @@ button:hover{
     background:#2f81f7;
 }
 
-.small{
-    margin-top:20px;
-    color:#888;
-    font-size:12px;
-    max-width:500px;
+.links{
+    margin-top:30px;
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.links a{
+    display:inline-block;
+    padding:10px 16px;
+    border-radius:10px;
+    text-decoration:none;
+    color:white;
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.1);
+}
+
+.links a:hover{
+    border-color:#58a6ff;
+    color:#58a6ff;
 }
 </style>
 </head>
-
-<body>
-
-<h1>FlatWeb</h1>
-
-<input id="q" placeholder="Safe search the web..." autocomplete="off">
-<button onclick="go()">Search</button>
-
-<div class="small">
-SafeSearch is always enabled. Explicit content is filtered as much as possible.
-</div>
-
-<script>
-
-// basic keyword filter (light safety layer)
-const blockedWords = [
-    "porn","sex","xxx","nude","naked","hentai","nsfw","adult","escort"
-];
-
-function isUnsafe(text){
-    text = text.toLowerCase();
-    return blockedWords.some(word => text.includes(word));
-}
-
-// redirect logic
-window.addEventListener("load", () => {
-
-    const params = new URLSearchParams(window.location.search);
-    let q = params.get("q");
-
-    if(!q) return;
-
-    if(isUnsafe(q)){
-        document.body.innerHTML = `
-            <h1>Blocked</h1>
-            <p>This search is not allowed on Safe Search mode.</p>
-        `;
-        return;
-    }
-
-    const url =
-    "https://www.google.com/search?q=" +
-    encodeURIComponent(q) +
-    "&safe=active";
-
-    window.location.href = url;
-
-});
-
-function go(){
-
-    const q = document.getElementById("q").value.trim();
-    if(!q) return;
-
-    window.location.href = "?q=" + encodeURIComponent(q);
-}
-
-document.getElementById("q").addEventListener("keydown", e=>{
-    if(e.key === "Enter") go();
-});
-
-</script>
-
-</body>
 </html>
