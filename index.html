@@ -441,16 +441,32 @@ function quickSearch(text){
     searchWeb();
 }
 
-const results = document.getElementById("results");
+const results =
+document.getElementById("results");
 
-async function searchWeb(){
+const input =
+document.getElementById("searchInput");
+
+async function searchWeb(push = true){
 
     const query =
-    document.getElementById("searchInput")
-    .value
-    .trim();
+    input.value.trim();
 
     if(!query) return;
+
+    if(push){
+
+        const url =
+        new URL(window.location);
+
+        url.searchParams.set("q", query);
+
+        window.history.pushState(
+            {},
+            "",
+            url
+        );
+    }
 
     results.innerHTML = `
         <div class="loading">
@@ -467,9 +483,11 @@ async function searchWeb(){
             )
         );
 
-        const html = await response.text();
+        const html =
+        await response.text();
 
-        const parser = new DOMParser();
+        const parser =
+        new DOMParser();
 
         const doc =
         parser.parseFromString(
@@ -550,17 +568,62 @@ async function searchWeb(){
     }
 }
 
-document
-.getElementById("searchInput")
-.addEventListener("keydown", e => {
+input.addEventListener(
+    "keydown",
+    e => {
 
-    if(e.key === "Enter"){
+        if(e.key === "Enter"){
 
-        searchWeb();
+            searchWeb();
+
+        }
 
     }
+);
 
-});
+window.addEventListener(
+    "load",
+    () => {
+
+        const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+        const q = params.get("q");
+
+        if(q){
+
+            input.value = q;
+
+            searchWeb(false);
+
+        }
+
+    }
+);
+
+window.addEventListener(
+    "popstate",
+    () => {
+
+        const params =
+        new URLSearchParams(
+            window.location.search
+        );
+
+        const q = params.get("q");
+
+        if(q){
+
+            input.value = q;
+
+            searchWeb(false);
+
+        }
+
+    }
+);
 
 </script>
 
