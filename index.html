@@ -8,49 +8,91 @@
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
+
 body{
     margin:0;
+    font-family:"JetBrains Mono", monospace;
     background:#05070a;
     color:white;
-    font-family:"JetBrains Mono", monospace;
+}
+
+/* TOP BAR */
+.topbar{
     display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:16px 22px;
+    border-bottom:1px solid rgba(255,255,255,0.08);
+    background:#0b0f14;
+    position:sticky;
+    top:0;
+}
+
+.logo{
+    font-weight:800;
+    font-size:18px;
+}
+
+.logo span{
+    color:#58a6ff;
+}
+
+.nav{
+    display:flex;
+    gap:16px;
+}
+
+.nav a{
+    color:#9aa4b2;
+    text-decoration:none;
+    font-size:14px;
+}
+
+.nav a:hover{
+    color:white;
+}
+
+/* MAIN */
+.container{
+    display:flex;
+    flex-direction:column;
     align-items:center;
     justify-content:center;
-    height:100vh;
-    flex-direction:column;
+    height:80vh;
     text-align:center;
+    padding:20px;
 }
 
 h1{
-    font-size:64px;
+    font-size:54px;
     margin-bottom:10px;
 }
 
-p{
+.subtitle{
     color:#8b949e;
-    margin-bottom:25px;
+    margin-bottom:30px;
 }
 
 input{
-    width:80%;
+    width:90%;
     max-width:600px;
     padding:16px;
-    font-size:18px;
+    font-size:16px;
     border-radius:12px;
-    border:1px solid #333;
-    background:#111;
+    border:1px solid #2a2f3a;
+    background:#0d1117;
     color:white;
     outline:none;
 }
 
 button{
     margin-top:15px;
-    padding:12px 24px;
+    padding:12px 22px;
     border:none;
     border-radius:10px;
     background:#58a6ff;
     color:white;
-    font-weight:bold;
+    font-weight:700;
     cursor:pointer;
 }
 
@@ -58,28 +100,84 @@ button:hover{
     background:#2f81f7;
 }
 
-.links{
-    margin-top:30px;
-    display:flex;
-    gap:15px;
-    flex-wrap:wrap;
-    justify-content:center;
+.footer{
+    position:fixed;
+    bottom:10px;
+    width:100%;
+    text-align:center;
+    font-size:12px;
+    color:#6e7681;
 }
 
-.links a{
-    display:inline-block;
-    padding:10px 16px;
-    border-radius:10px;
-    text-decoration:none;
-    color:white;
-    background:rgba(255,255,255,0.08);
-    border:1px solid rgba(255,255,255,0.1);
-}
-
-.links a:hover{
-    border-color:#58a6ff;
-    color:#58a6ff;
-}
 </style>
 </head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+
+    <div class="logo">Flat<span>Web</span></div>
+
+    <div class="nav">
+        <a href="#">Search</a>
+        <a href="#">Images</a>
+        <a href="#">Videos</a>
+        <a href="https://discord.gg/JETEyG55kT" target="_blank">Discord</a>
+        <a href="mailto:flatweb@post.com?subject=FlatWeb%20Updates&body=Hey%2C%20I%20want%20to%20have%20update%20emails">
+            Updates
+        </a>
+    </div>
+
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+    <h1>FlatWeb</h1>
+    <div class="subtitle">Search the web instantly</div>
+
+    <input id="q" placeholder="Search anything...">
+
+    <button onclick="go()">Search</button>
+
+</div>
+
+<div class="footer">
+    © 2026 FlatWeb — safe redirect search
+</div>
+
+<script>
+
+window.addEventListener("load", () => {
+
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get("q");
+
+    if(q){
+
+        window.location.href =
+        "https://www.google.com/search?q=" +
+        encodeURIComponent(q) +
+        "&safe=active";
+
+    }
+
+});
+
+function go(){
+
+    const q = document.getElementById("q").value.trim();
+    if(!q) return;
+
+    window.location.href = "?q=" + encodeURIComponent(q);
+}
+
+document.getElementById("q").addEventListener("keydown", e=>{
+    if(e.key === "Enter") go();
+});
+
+</script>
+
+</body>
 </html>
