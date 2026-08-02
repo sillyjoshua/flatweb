@@ -85,8 +85,13 @@ input{
     outline:none;
 }
 
-button{
+.buttons{
+    display:flex;
+    gap:12px;
     margin-top:15px;
+}
+
+button{
     padding:12px 22px;
     border:none;
     border-radius:10px;
@@ -94,10 +99,19 @@ button{
     color:white;
     font-weight:700;
     cursor:pointer;
+    transition:0.2s;
 }
 
 button:hover{
     background:#2f81f7;
+}
+
+.api-btn{
+    background:#21262d;
+}
+
+.api-btn:hover{
+    background:#30363d;
 }
 
 .footer{
@@ -114,9 +128,7 @@ button:hover{
 
 <body>
 
-<!-- TOP BAR -->
 <div class="topbar">
-
     <div class="logo">Flat<span>Web</span></div>
 
     <div class="nav">
@@ -125,10 +137,8 @@ button:hover{
             Updates
         </a>
     </div>
-
 </div>
 
-<!-- MAIN -->
 <div class="container">
 
     <h1>FlatWeb</h1>
@@ -136,7 +146,12 @@ button:hover{
 
     <input id="q" placeholder="Search anything...">
 
-    <button onclick="go()">Search</button>
+    <div class="buttons">
+        <button onclick="go()">Search</button>
+        <button class="api-btn" onclick="window.location.href='https://api.flatweb.pw'">
+            API Docs
+        </button>
+    </div>
 
 </div>
 
@@ -152,12 +167,10 @@ window.addEventListener("load", () => {
     const q = params.get("q");
 
     if(q){
-
         window.location.href =
-        "https://www.google.com/search?q=" +
-        encodeURIComponent(q) +
-        "&safe=active";
-
+            "https://www.google.com/search?q=" +
+            encodeURIComponent(q) +
+            "&safe=active";
     }
 
 });
